@@ -88,25 +88,7 @@ void Renderer::add_log_message(std::string message) {
 }
 
 void Renderer::draw_door(Door& door) {
-    Door::Position current_position = door.get_current_door_position();
-    if (current_position != Door::Position::OPENING && current_position != Door::Position::CLOSING) {
-        draw_sprite((current_position == Door::Position::OPEN) ? (100) : (0));
-        return;
-    }
-
-    std::chrono::steady_clock::time_point movement_start_time = door.get_movement_start_time();
-    auto now = std::chrono::steady_clock::now();
-    auto elapsed = std::chrono::duration<float>(now - movement_start_time);
-
-    if (current_position == Door::Position::OPENING) {
-        draw_sprite(elapsed.count() * 100);
-    }
-    else {
-        draw_sprite(100 - (elapsed.count() * 100));
-    }
-}
-
-void Renderer::draw_sprite(int percent_open) {
+    int percent_open = door.calculate_percent_open();
     if (percent_open == 0) {
         wprintw(this->door_content, "%s", DOOR_OPEN_0);
     }

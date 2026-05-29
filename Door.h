@@ -11,6 +11,7 @@ class Door {
         void initialize();
         Position get_current_door_position();
         std::chrono::steady_clock::time_point get_movement_start_time();
+        int calculate_percent_open();
         void set_next_door_position(Position position);
         void press_button();
         void update();

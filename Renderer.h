@@ -81,7 +81,6 @@ R"( ________________________
 
         void create_windows();
         void draw_door(Door& door);
-        void draw_sprite(int percent_open);
 };
 
 #endif

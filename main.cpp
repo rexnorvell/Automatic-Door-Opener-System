@@ -107,9 +107,8 @@ void handle_get_current_door_position(Door& door, Renderer& renderer) {
         default:
             break;
     }
-    if (current_position_string != "") {
-        renderer.add_log_message("RULE 4: The door is currently " + current_position_string + ".\n");
-    }
+    int percent_open = door.calculate_percent_open();
+    renderer.add_log_message("RULE 4: The door is currently " + current_position_string + " (" + std::to_string(percent_open) + "%% open).\n");
 }
 
 void handle_open_door(Door& door, Renderer& renderer) {

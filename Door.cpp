@@ -21,6 +21,24 @@ std::chrono::steady_clock::time_point Door::get_movement_start_time() {
     return this->movement_start_time;
 }
 
+int Door::calculate_percent_open() {
+    int percent_open = 0;
+    if (this->current_position == Door::Position::OPENING || this->current_position == Door::Position::CLOSING) {
+        auto now = std::chrono::steady_clock::now();
+        auto elapsed = std::chrono::duration<float>(now - this->movement_start_time);
+        if (current_position == Door::Position::OPENING) {
+            percent_open = elapsed.count() * 100;
+        }
+        else {
+            percent_open = 100 - (elapsed.count() * 100);
+        }
+    }
+    else if (this->current_position == Door::Position::OPEN) {
+        percent_open = 100;
+    }
+    return std::max(0, std::min(percent_open, 100));
+}
+
 // RULE 5: The Automatic Door Opener system shall be able to command the motor(s) to move the door to the OPEN position.
 // RULE 6: The Automatic Door Opener system shall be able to command the motor(s) to move the door to the CLOSE position.
 void Door::set_next_door_position(Door::Position position) {
