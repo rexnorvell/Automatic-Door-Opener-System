@@ -2,6 +2,24 @@
 #include "Door.h"
 
 Renderer::Renderer() {
+    // Create the windows
+    create_windows();
+}
+
+void Renderer::resize() {
+    // Update ncurses internal structures
+    erase();
+    refresh();
+
+    // Recreate the windows
+    delete_windows();
+    create_windows();
+
+    // Redraw the welcome
+    draw_welcome();
+}
+
+void Renderer::create_windows() {
     // Create welcome windows
     int screen_height, screen_width;
     getmaxyx(stdscr, screen_height, screen_width);
@@ -23,30 +41,21 @@ Renderer::Renderer() {
     getmaxyx(door_window, door_h, door_w);
     this->door_content = derwin(door_window, door_h - 2, door_w - 4, 1, 3);
 
-    // Draw borders around the windows
-    box(welcome_window, 0, 0);
-    box(log_window, 0, 0);
-    box(door_window, 0, 0);
-}
+    // Draw a border around the logs
+    box(this->log_window, 0, 0);
+};
 
 void Renderer::draw_welcome() {
+    box(this->welcome_window, 0, 0);
     std::string welcome_message = "Welcome to the Automatic Door Opener System!";
     std::string dash_border(welcome_message.length(), '-');
     wprintw(this->welcome_content, "%s\n%s\n%s\n\n", dash_border.c_str(), welcome_message.c_str(), dash_border.c_str());
-    wprintw(this->welcome_content, "This Automatic Door Opener System (ADOS) follows the seven rules below:\n\n");
-    wprintw(this->welcome_content, "\t1. When the button is pressed, the ADOS shall cause the door to CLOSE if it is currently in the OPEN position.\n");
-    wprintw(this->welcome_content, "\t2. When the button is pressed, the ADOS shall cause the door to OPEN if it is currently in the CLOSE position.\n");
-    wprintw(this->welcome_content, "\t3. When the button is pressed, the ADOS shall ignore the button press if the door is currently MOVING.\n");
-    wprintw(this->welcome_content, "\t4. The ADOS shall be able to monitor door position.\n");
-    wprintw(this->welcome_content, "\t5. The ADOS shall be able to command the motor(s) to move the door to the OPEN position.\n");
-    wprintw(this->welcome_content, "\t6. The ADOS shall be able to command the motor(s) to move the door to the CLOSE position.\n");
-    wprintw(this->welcome_content, "\t7. At initialization, the ADOS shall cause the door to OPEN if the door is not in either CLOSE or OPEN position.\n\n");
-    wprintw(this->welcome_content, "The controls for the door are described below:\n\n");
-    wprintw(this->welcome_content, "\t%8s - presses \"the button\"\n", "SPACEBAR");
-    wprintw(this->welcome_content, "\t%8s - gets and prints the current position of the door\n", "G");
-    wprintw(this->welcome_content, "\t%8s - opens the door\n", "O");
-    wprintw(this->welcome_content, "\t%8s - closes the door\n", "C");
-    wprintw(this->welcome_content, "\t%8s - quits the program\n\n", "Q");
+    wprintw(this->welcome_content, "Controls:\n\n");
+    wprintw(this->welcome_content, "%10s - presses \"the button\"\n", "SPACEBAR");
+    wprintw(this->welcome_content, "%10s - gets and prints the current position of the door\n", "G");
+    wprintw(this->welcome_content, "%10s - opens the door\n", "O");
+    wprintw(this->welcome_content, "%10s - closes the door\n", "C");
+    wprintw(this->welcome_content, "%10s - quits the program\n\n", "Q");
 }
 
 void Renderer::draw_frame(Door& door) {

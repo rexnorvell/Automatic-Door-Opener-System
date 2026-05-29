@@ -7,10 +7,11 @@ void handle_open_door(Door& door, Renderer& renderer);
 void handle_close_door(Door& door, Renderer& renderer);
 
 int main() {
-    // Capture user input as they type
+    // Configure ncurses
     initscr();
     cbreak();
     noecho();
+    keypad(stdscr, true);
     nodelay(stdscr, true);
 
     // Create and initialize the door and renderer
@@ -19,11 +20,19 @@ int main() {
     renderer.draw_welcome();
     door.initialize();
 
+    // Store state for resizing
+    bool resize_pending = false;
+    auto last_resize_time = std::chrono::steady_clock::now();
+
     // Capture user input and call the appropriate handler based on the character pressed
     while (true) {
         int ch = getch();
         if (ch == 'q') {
             break;
+        }
+        else if (ch == KEY_RESIZE) {
+            resize_pending = true;
+            last_resize_time = std::chrono::steady_clock::now();
         }
         else if (ch == ' ') {
             handle_button_pressed(door, renderer);
@@ -37,10 +46,22 @@ int main() {
         else if (ch == 'c') {
             handle_close_door(door, renderer);
         }
-
+        
         // Process the door's movement and redraw its panel
         door.update();
-        renderer.draw_frame(door);
+
+        // Perform a resize if enough time has passed
+        if (resize_pending) {
+            auto now = std::chrono::steady_clock::now();
+            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_resize_time);
+            if (elapsed.count() > Renderer::RESIZING_DELAY_MS) {
+                renderer.resize();
+                resize_pending = false;
+            }
+        }
+        else {
+            renderer.draw_frame(door);
+        }
 
         // Wait 16 ms (~60fps)
         napms(16);

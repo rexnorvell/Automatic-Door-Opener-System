@@ -8,7 +8,10 @@ class Door;
 
 class Renderer {
     public:
+        static constexpr int RESIZING_DELAY_MS = 100;
+    
         Renderer();
+        void resize();
         void draw_welcome();
         void draw_frame(Door& door);
         void delete_windows();
@@ -76,6 +79,7 @@ R"( ________________________
 |========================|
         )";
 
+        void create_windows();
         void draw_door(Door& door);
         void draw_sprite(int percent_open);
 };
