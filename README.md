@@ -6,9 +6,9 @@ This is a C++ example implementation of a software solution for a case study inv
 ## User Interface
 The application has three main sections: the **welcome**, **logging**, and **door** sections. Each section is separated by a line border. 
 
-- `Welcome` - The **welcome** section at the top of the window simply introduces the user to the application. It features a brief message detailing the seven logical rules along with a legend for the keys the user can press to take different actions. 
+- `Welcome` - The **welcome** section at the top of the window simply introduces the user to the application. It features a legend for the keys the user can press to take different actions. 
 
-- `Logging` - The **logging** section at the bottom left of the window describes the steps taken by the system as the user performs different actions. Each action traces back to one of the seven logical rules or is a stated logical assumption.
+- `Logging` - The **logging** section at the bottom left of the window describes the steps taken by the system as the user performs different actions. Each action traces back to one of the **seven system requirements** or is a stated logical assumption.
 
 - `Door` - The **door** section at the bottom right of the window displays a simple ASCII art representation of the door's current state. It features sprite-based animations to represent the door opening and closing.
 
