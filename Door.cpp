@@ -1,8 +1,5 @@
 #include "Door.h"
 
-#include <iostream>
-#include <ncurses.h>
-
 Door::Door() {
     this->current_position = Door::Position::CLOSED;
 }

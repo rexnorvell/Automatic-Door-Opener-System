@@ -2,7 +2,7 @@
 COMP = g++
 CFLAGS = -Wall -g
 TARGET = main
-SRCS = main.cpp Door.cpp
+SRCS = main.cpp Door.cpp Renderer.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 
