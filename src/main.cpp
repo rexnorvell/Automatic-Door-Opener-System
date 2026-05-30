@@ -89,24 +89,7 @@ void handle_button_pressed(Door& door, Renderer& renderer) {
 }
 
 void handle_get_current_door_position(Door& door, Renderer& renderer) {
-    Door::Position current_position = door.get_current_door_position();
-    std::string current_position_string = "";
-    switch (current_position) {
-        case Door::Position::OPEN:
-            current_position_string = "open";
-            break;
-        case Door::Position::OPENING:
-            current_position_string = "opening";
-            break;
-        case Door::Position::CLOSED:
-            current_position_string = "closed";
-            break;
-        case Door::Position::CLOSING:
-            current_position_string = "closing";
-            break;
-        default:
-            break;
-    }
+    std::string current_position_string = door.position_to_string(door.get_current_door_position());
     int percent_open = door.calculate_percent_open();
     renderer.add_log_message("RULE 4: The door is currently " + current_position_string + " (" + std::to_string(percent_open) + "%% open).\n");
 }
