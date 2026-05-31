@@ -61,7 +61,7 @@ void Door::press_button() {
     if (this->current_position == Position::OPENING || this->current_position == Position::CLOSING) {
         return;
     }
-    if (this->current_position == Position::OPEN) {
+    else if (this->current_position == Position::OPEN) {
         this->current_position = Position::CLOSING;
     }
     else if (this->current_position == Position::CLOSED) {
